@@ -35,6 +35,7 @@ public class FdActivity extends CameraActivity implements CvCameraViewListener2 
 
     private static final String    TAG                 = "OCVSample::Activity";
     private static final Scalar    FACE_RECT_COLOR     = new Scalar(0, 255, 0, 255);
+//
     public static final int        JAVA_DETECTOR       = 0;
     public static final int        NATIVE_DETECTOR     = 1;
 
@@ -53,8 +54,8 @@ public class FdActivity extends CameraActivity implements CvCameraViewListener2 
     private int                    mDetectorType       = JAVA_DETECTOR;
     private String[]               mDetectorName;
 
-    private float                  mRelativeFaceSize   = 0.2f;
-    private int                    mAbsoluteFaceSize   = 0;
+    private float                  mRelativeFaceSize   = 0.2f;  // 상대적인 얼굴 크기 (초기값은 0.5f가 들어온다)
+    private int                    mAbsoluteFaceSize   = 0; //절대적인 얼굴 크기 (초기값이 0?)
 
     private CameraBridgeViewBase   mOpenCvCameraView;
 
@@ -73,7 +74,9 @@ public class FdActivity extends CameraActivity implements CvCameraViewListener2 
                         // load cascade file from application resources
                         InputStream is = getResources().openRawResource(R.raw.lbpcascade_frontalface);
                         File cascadeDir = getDir("cascade", Context.MODE_PRIVATE);
-                        mCascadeFile = new File(cascadeDir, "lbpcascade_frontalface.xml");
+                        mCascadeFile = new File(cascadeDir, "haarcascade_frontalface_alt2.xml");
+
+
                         FileOutputStream os = new FileOutputStream(mCascadeFile);
 
                         byte[] buffer = new byte[4096];
@@ -123,6 +126,8 @@ public class FdActivity extends CameraActivity implements CvCameraViewListener2 
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "called onCreate");
         super.onCreate(savedInstanceState);
+
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setContentView(R.layout.face_detect_surface_view);
